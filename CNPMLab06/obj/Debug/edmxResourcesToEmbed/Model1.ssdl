@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblCourses">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Credits" Type="int" Nullable="false" />
+    <Property Name="DepartmentID" Type="int" Nullable="false" />
+    <Property Name="InstructorID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblDepartments">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblInstructors">
+    <Key>
+      <PropertyRef Name="InstructorID" />
+    </Key>
+    <Property Name="InstructorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InstructorName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="DepartmentID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblStudentCourses">
+    <Key>
+      <PropertyRef Name="StudentID" />
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tblStudents">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="DateOfBirth" Type="date" Nullable="false" />
+    <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Age" Type="int" Nullable="false" />
+    <Property Name="YearOfEnroll" Type="int" Nullable="false" />
+    <Property Name="Major" Type="nvarchar" MaxLength="50" />
+    <Property Name="GPA" Type="decimal" Precision="3" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'SchoolDB.dbo.tblUsers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tblUsers">
+    <Key>
+      <PropertyRef Name="Username" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__tblStuden__Cours__4F7CD00D">
+    <End Role="tblCourses" Type="Self.tblCourses" Multiplicity="1" />
+    <End Role="tblStudentCourses" Type="Self.tblStudentCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCourses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="tblStudentCourses">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblStuden__Stude__4E88ABD4">
+    <End Role="tblStudents" Type="Self.tblStudents" Multiplicity="1" />
+    <End Role="tblStudentCourses" Type="Self.tblStudentCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblStudents">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tblStudentCourses">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Courses_Departments">
+    <End Role="tblDepartments" Type="Self.tblDepartments" Multiplicity="1" />
+    <End Role="tblCourses" Type="Self.tblCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblDepartments">
+        <PropertyRef Name="DepartmentID" />
+      </Principal>
+      <Dependent Role="tblCourses">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Courses_Instructors">
+    <End Role="tblInstructors" Type="Self.tblInstructors" Multiplicity="1" />
+    <End Role="tblCourses" Type="Self.tblCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblInstructors">
+        <PropertyRef Name="InstructorID" />
+      </Principal>
+      <Dependent Role="tblCourses">
+        <PropertyRef Name="InstructorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentCourses_Courses">
+    <End Role="tblCourses" Type="Self.tblCourses" Multiplicity="1" />
+    <End Role="tblStudentCourses" Type="Self.tblStudentCourses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCourses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="tblStudentCourses">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetCourses" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="SchoolDBModelStoreContainer">
+    <EntitySet Name="tblCourses" EntityType="Self.tblCourses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblDepartments" EntityType="Self.tblDepartments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblInstructors" EntityType="Self.tblInstructors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblStudentCourses" EntityType="Self.tblStudentCourses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblStudents" EntityType="Self.tblStudents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUsers" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tblUsers].[Username] AS [Username], 
+    [tblUsers].[Password] AS [Password]
+    FROM [dbo].[tblUsers] AS [tblUsers]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__tblStuden__Cours__4F7CD00D" Association="Self.FK__tblStuden__Cours__4F7CD00D">
+      <End Role="tblCourses" EntitySet="tblCourses" />
+      <End Role="tblStudentCourses" EntitySet="tblStudentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblStuden__Stude__4E88ABD4" Association="Self.FK__tblStuden__Stude__4E88ABD4">
+      <End Role="tblStudents" EntitySet="tblStudents" />
+      <End Role="tblStudentCourses" EntitySet="tblStudentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Courses_Departments" Association="Self.FK_Courses_Departments">
+      <End Role="tblDepartments" EntitySet="tblDepartments" />
+      <End Role="tblCourses" EntitySet="tblCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Courses_Instructors" Association="Self.FK_Courses_Instructors">
+      <End Role="tblInstructors" EntitySet="tblInstructors" />
+      <End Role="tblCourses" EntitySet="tblCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentCourses_Courses" Association="Self.FK_StudentCourses_Courses">
+      <End Role="tblCourses" EntitySet="tblCourses" />
+      <End Role="tblStudentCourses" EntitySet="tblStudentCourses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

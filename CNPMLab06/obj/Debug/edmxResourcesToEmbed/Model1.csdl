@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblCours">
+    <Key>
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="CourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CourseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Credits" Type="Int32" Nullable="false" />
+    <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+    <Property Name="InstructorID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblStudentCourses" Relationship="Self.FK__tblStuden__Cours__4F7CD00D" FromRole="tblCourses" ToRole="tblStudentCourses" />
+    <NavigationProperty Name="tblDepartment" Relationship="Self.FK_Courses_Departments" FromRole="tblCourses" ToRole="tblDepartments" />
+    <NavigationProperty Name="tblInstructor" Relationship="Self.FK_Courses_Instructors" FromRole="tblCourses" ToRole="tblInstructors" />
+    <NavigationProperty Name="tblStudentCourses1" Relationship="Self.FK_StudentCourses_Courses" FromRole="tblCourses" ToRole="tblStudentCourses" />
+  </EntityType>
+  <EntityType Name="tblDepartment">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="tblCourses" Relationship="Self.FK_Courses_Departments" FromRole="tblDepartments" ToRole="tblCourses" />
+  </EntityType>
+  <EntityType Name="tblInstructor">
+    <Key>
+      <PropertyRef Name="InstructorID" />
+    </Key>
+    <Property Name="InstructorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InstructorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblCourses" Relationship="Self.FK_Courses_Instructors" FromRole="tblInstructors" ToRole="tblCourses" />
+  </EntityType>
+  <EntityType Name="tblStudentCours">
+    <Key>
+      <PropertyRef Name="StudentID" />
+      <PropertyRef Name="CourseID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="CourseID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblCours" Relationship="Self.FK__tblStuden__Cours__4F7CD00D" FromRole="tblStudentCourses" ToRole="tblCourses" />
+    <NavigationProperty Name="tblCours1" Relationship="Self.FK_StudentCourses_Courses" FromRole="tblStudentCourses" ToRole="tblCourses" />
+    <NavigationProperty Name="tblStudent" Relationship="Self.FK__tblStuden__Stude__4E88ABD4" FromRole="tblStudentCourses" ToRole="tblStudents" />
+  </EntityType>
+  <EntityType Name="tblStudent">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Age" Type="Int32" Nullable="false" />
+    <Property Name="YearOfEnroll" Type="Int32" Nullable="false" />
+    <Property Name="Major" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GPA" Type="Decimal" Precision="3" Scale="2" />
+    <NavigationProperty Name="tblStudentCourses" Relationship="Self.FK__tblStuden__Stude__4E88ABD4" FromRole="tblStudents" ToRole="tblStudentCourses" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="Username" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__tblStuden__Cours__4F7CD00D">
+    <End Role="tblCourses" Type="Self.tblCours" Multiplicity="1" />
+    <End Role="tblStudentCourses" Type="Self.tblStudentCours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCourses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="tblStudentCourses">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Courses_Departments">
+    <End Role="tblDepartments" Type="Self.tblDepartment" Multiplicity="1" />
+    <End Role="tblCourses" Type="Self.tblCours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblDepartments">
+        <PropertyRef Name="DepartmentID" />
+      </Principal>
+      <Dependent Role="tblCourses">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Courses_Instructors">
+    <End Role="tblInstructors" Type="Self.tblInstructor" Multiplicity="1" />
+    <End Role="tblCourses" Type="Self.tblCours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblInstructors">
+        <PropertyRef Name="InstructorID" />
+      </Principal>
+      <Dependent Role="tblCourses">
+        <PropertyRef Name="InstructorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentCourses_Courses">
+    <End Role="tblCourses" Type="Self.tblCours" Multiplicity="1" />
+    <End Role="tblStudentCourses" Type="Self.tblStudentCours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCourses">
+        <PropertyRef Name="CourseID" />
+      </Principal>
+      <Dependent Role="tblStudentCourses">
+        <PropertyRef Name="CourseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tblStuden__Stude__4E88ABD4">
+    <End Role="tblStudents" Type="Self.tblStudent" Multiplicity="1" />
+    <End Role="tblStudentCourses" Type="Self.tblStudentCours" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblStudents">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="tblStudentCourses">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SchoolDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCourses" EntityType="Self.tblCours" />
+    <EntitySet Name="tblDepartments" EntityType="Self.tblDepartment" />
+    <EntitySet Name="tblInstructors" EntityType="Self.tblInstructor" />
+    <EntitySet Name="tblStudentCourses" EntityType="Self.tblStudentCours" />
+    <EntitySet Name="tblStudents" EntityType="Self.tblStudent" />
+    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+    <AssociationSet Name="FK__tblStuden__Cours__4F7CD00D" Association="Self.FK__tblStuden__Cours__4F7CD00D">
+      <End Role="tblCourses" EntitySet="tblCourses" />
+      <End Role="tblStudentCourses" EntitySet="tblStudentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Courses_Departments" Association="Self.FK_Courses_Departments">
+      <End Role="tblDepartments" EntitySet="tblDepartments" />
+      <End Role="tblCourses" EntitySet="tblCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Courses_Instructors" Association="Self.FK_Courses_Instructors">
+      <End Role="tblInstructors" EntitySet="tblInstructors" />
+      <End Role="tblCourses" EntitySet="tblCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentCourses_Courses" Association="Self.FK_StudentCourses_Courses">
+      <End Role="tblCourses" EntitySet="tblCourses" />
+      <End Role="tblStudentCourses" EntitySet="tblStudentCourses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tblStuden__Stude__4E88ABD4" Association="Self.FK__tblStuden__Stude__4E88ABD4">
+      <End Role="tblStudents" EntitySet="tblStudents" />
+      <End Role="tblStudentCourses" EntitySet="tblStudentCourses" />
+    </AssociationSet>
+    <FunctionImport Name="GetCourses" ReturnType="Collection(SchoolDBModel.GetCourses_Result)" />
+  </EntityContainer>
+  <ComplexType Name="GetCourses_Result">
+    <Property Type="Int32" Name="CourseID" Nullable="false" />
+    <Property Type="String" Name="CourseName" Nullable="false" MaxLength="100" />
+  </ComplexType>
+</Schema>

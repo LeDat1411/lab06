@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SchoolDBModelStoreContainer" CdmEntityContainer="SchoolDBEntities">
+    <EntitySetMapping Name="tblCourses">
+      <EntityTypeMapping TypeName="SchoolDBModel.tblCours">
+        <MappingFragment StoreEntitySet="tblCourses">
+          <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+          <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+          <ScalarProperty Name="Credits" ColumnName="Credits" />
+          <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+          <ScalarProperty Name="InstructorID" ColumnName="InstructorID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblDepartments">
+      <EntityTypeMapping TypeName="SchoolDBModel.tblDepartment">
+        <MappingFragment StoreEntitySet="tblDepartments">
+          <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+          <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblInstructors">
+      <EntityTypeMapping TypeName="SchoolDBModel.tblInstructor">
+        <MappingFragment StoreEntitySet="tblInstructors">
+          <ScalarProperty Name="InstructorID" ColumnName="InstructorID" />
+          <ScalarProperty Name="InstructorName" ColumnName="InstructorName" />
+          <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblStudentCourses">
+      <EntityTypeMapping TypeName="SchoolDBModel.tblStudentCours">
+        <MappingFragment StoreEntitySet="tblStudentCourses">
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblStudents">
+      <EntityTypeMapping TypeName="SchoolDBModel.tblStudent">
+        <MappingFragment StoreEntitySet="tblStudents">
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+          <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="YearOfEnroll" ColumnName="YearOfEnroll" />
+          <ScalarProperty Name="Major" ColumnName="Major" />
+          <ScalarProperty Name="GPA" ColumnName="GPA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblUsers">
+      <EntityTypeMapping TypeName="SchoolDBModel.tblUser">
+        <MappingFragment StoreEntitySet="tblUsers">
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetCourses" FunctionName="SchoolDBModel.Store.GetCourses">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SchoolDBModel.GetCourses_Result">
+          <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+          <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>
